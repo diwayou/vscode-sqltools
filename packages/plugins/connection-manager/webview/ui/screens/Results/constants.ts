@@ -17,6 +17,7 @@ export enum MenuActions {
   ClearSelection = 'Clear Selection',
   ClearFiltersOption = 'Clear All Filters',
   CopyCellOption = 'Copy {contextAction}',
+  CopyColumnOption = 'Copy Column {contextAction}',
   CopyRowOption = 'Copy Selected JSON Row(s)',
   SaveCSVOption = 'Save Results as CSV',
   SaveJSONOption = 'Save Results as JSON',

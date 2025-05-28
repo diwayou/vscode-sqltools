@@ -120,6 +120,8 @@ const Table = ({ setContextState }) => {
       case MenuActions.CopyCellOption:
       case MenuActions.CopyRowOption:
         return clipboardInsert(choice === MenuActions.CopyCellOption ? cellValue : selectedRows);
+      case MenuActions.CopyColumnOption:
+        return clipboardInsert(rows.map(r => r[colname]));
       case MenuActions.ClearFiltersOption:
         setFilters([]);
       case MenuActions.ClearSelection:
@@ -168,6 +170,10 @@ const Table = ({ setContextState }) => {
         {
           label: MenuActions.CopyCellOption.replace('{contextAction}', replaceString),
           value: MenuActions.CopyCellOption,
+        },
+        {
+          label: MenuActions.CopyColumnOption.replace('{contextAction}', colname),
+          value: MenuActions.CopyColumnOption,
         },
         {
           label: MenuActions.OpenEditorWithValueOption.replace('{contextAction}', replaceString),
