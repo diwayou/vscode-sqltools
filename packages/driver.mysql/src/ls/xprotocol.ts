@@ -31,23 +31,23 @@ export default class MySQLX extends AbstractDriver<any, any> implements IConnect
         };
 
         if (this.credentials.ssh === 'Enabled' && this.credentials.sshOptions) {
-          const { port: localPort } = await this.createSshTunnel(
-            {
-              host: this.credentials.sshOptions.host,
-              port: this.credentials.sshOptions.port,
-              username: this.credentials.sshOptions.username,
-              password: this.credentials.sshOptions.password,
-              privateKeyPath: this.credentials.sshOptions.privateKeyPath,
-            },
-            {
-              host: this.credentials.server,
-              port: this.credentials.port,
-            }
-          );
-          Object.assign(connectionOptions, {
-            host: 'localhost',
-            port: localPort,
-          });
+          // const { port: localPort } = await this.createSshTunnel(
+          //   {
+          //     host: this.credentials.sshOptions.host,
+          //     port: this.credentials.sshOptions.port,
+          //     username: this.credentials.sshOptions.username,
+          //     password: this.credentials.sshOptions.password,
+          //     privateKeyPath: this.credentials.sshOptions.privateKeyPath,
+          //   },
+          //   {
+          //     host: this.credentials.server,
+          //     port: this.credentials.port,
+          //   }
+          // );
+          // Object.assign(connectionOptions, {
+          //   host: 'localhost',
+          //   port: localPort,
+          // });
         }
       }
 
