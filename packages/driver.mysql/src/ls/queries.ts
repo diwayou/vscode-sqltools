@@ -129,9 +129,7 @@ FROM
 WHERE
   T.TABLE_SCHEMA NOT IN ('information_schema', 'performance_schema', 'sys', 'mysql')
   ${p => p.search ? `AND (
-    CONCAT(T.TABLE_SCHEMA, '.', T.TABLE_NAME) LIKE '%${p.search}%'
-    OR CONCAT('"', T.TABLE_SCHEMA, '"."', T.TABLE_NAME, '"') LIKE '%${p.search}%'
-    OR T.TABLE_NAME LIKE '%${p.search}%'
+    T.TABLE_NAME LIKE '${p.search}%'
   )` : ''}
 ORDER BY
   T.TABLE_NAME
