@@ -50,7 +50,8 @@
     },
     "[typescriptreact]": {
       "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "js/ts.tsdk.path": "vscode-sqltools/node_modules/typescript/lib"
   },
   "tasks": {
     "version": "2.0.0",

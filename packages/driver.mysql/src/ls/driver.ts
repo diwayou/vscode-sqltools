@@ -60,6 +60,7 @@ export default class MySQL<O = any> extends AbstractDriver<any, O> implements IC
       case ContextValue.CONNECTED_CONNECTION:
         return this.queryResults(this.queries.fetchDatabases(item));
       case ContextValue.TABLE:
+        return this.fastGetColumns(item as NSDatabase.ITable);
       case ContextValue.VIEW:
         return this.getColumns(item as NSDatabase.ITable);
       case ContextValue.RESOURCE_GROUP:
@@ -99,6 +100,36 @@ export default class MySQL<O = any> extends AbstractDriver<any, O> implements IC
           return c;
         }));
     }
+  }
+
+  private async fastGetColumns(parent: NSDatabase.ITable): Promise<NSDatabase.IColumn[]> {
+    const results = await this.queryResults(this.queries.describeTable(parent));
+
+    return results.map((obj) => {
+      const columnKey = obj.Key || '';
+      const detail = String(obj.Type || '').toUpperCase();
+      const sizeMatch = String(obj.Type || '').match(/\((\d+)/);
+      const isPk = columnKey === 'PRI';
+
+      return <NSDatabase.IColumn>{
+        label: obj.Field,
+        type: ContextValue.COLUMN,
+        table: parent,
+        schema: parent.schema,
+        database: parent.database,
+        dataType: String(obj.Type || '').split('(')[0],
+        size: sizeMatch ? Number(sizeMatch[1]) : undefined,
+        detail,
+        defaultValue: obj.Default,
+        isNullable: toBool(obj.Null),
+        isPk,
+        isFk: false,
+        columnKey,
+        iconName: isPk ? 'pk' : null,
+        childType: ContextValue.NO_CHILD,
+        extra: obj.Extra ? { extra: obj.Extra } : undefined,
+      };
+    });
   }
 
   private async getColumns(parent: NSDatabase.ITable): Promise<NSDatabase.IColumn[]> {
